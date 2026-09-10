@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 #ifndef FLOAT_DOUBLE_TEST
@@ -37,7 +38,7 @@ trip_statistics_t trip_statistics_calculate(distance_t distance_km, duration_t d
     const duration_t duration_hours = duration_min / 60.0;
     const energy_t   energy_used_kWh = (bat_capacity * (bat_level_start - bat_level_finish)) / 100.0;
     const distance_t average_speed  = distance_km / duration_hours;
-    const energy_t   consumption_per_100km = energy_used_kWh / duration_hours;
+    const energy_t   consumption_per_100km = energy_used_kWh / distance_km * 100.0;
     const currency_t trip_cost = energy_used_kWh * energy_tariff_byn;
     const currency_t trip_cost_per_passenger = trip_cost / passengers_count;
 
@@ -52,7 +53,10 @@ trip_statistics_t trip_statistics_calculate(distance_t distance_km, duration_t d
 
 }
 
-int main() {
+int main(int argc, char** argv) {
+    unsigned int run_self_test = 0;
+    if (argc > 1 && !strcmp(argv[1], "--self-test")) { run_self_test = 1; }
+
     distance_t   distance_km;
     duration_t   duration_min;
     percentage_t bat_level_start;
@@ -78,6 +82,20 @@ int main() {
     printf(ENERGY_FORMAT, trip_stats.consumption_per_100km); printf("%s", ",");
     printf(CURRENCY_FORMAT, trip_stats.trip_cost); printf("%s", ",");
     printf(CURRENCY_FORMAT, trip_stats.trip_cost_per_person); printf("%s", "\n");
+
+    if (run_self_test) {
+        int tests_failed = 0;
+        #define assert_eq(v1, v2) if ((v1) != (v2)) { fprintf(stderr, "Assertion error (E = %5.2f%%): (%-55s) != (%30s) [%-30.20lf != %30.20lf]\n",(__max((v1),(v2))-__min((v1),(v2)))/(__max((v1),(v2))), #v1, #v2, (v1), (v2)); tests_failed += 1; }
+
+        assert_eq(trip_stats.average_speed_kmh * trip_stats.duration_hrs, distance_km);
+        assert_eq(trip_stats.consumption_per_100km * distance_km / 100.0, trip_stats.energy_used_kWh);
+        assert_eq(trip_stats.trip_cost_per_person * passengers_count, trip_stats.trip_cost);
+
+        if (tests_failed) {
+            return -1;
+        }
+    }
+    
 
     return 0;
 }
