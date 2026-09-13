@@ -1,21 +1,22 @@
-# Лабораторная Работа №1 ОАиП
+<h1 style="text-align: center; width: 100%"> Лабораторная Работа №1 ОАиП</h1>
+
+<table style="font-size: 150%; border: none; text-align: center; width: 90%; margin: auto">
+    <tr style="text-align: left; border:none; border-bottom: 1px solid black">
+        <th style="border: none">ФИО</th>
+        <th style="border: none">Группа</th>
+        <th style="border: none">Вариант</th>
+        <th style="border: none">Целевая оценка</th>
+    </tr>
+    <tr style="border:none">
+        <td style="border: none">Филиппов Андрей Сергеевич</td>
+        <td style="border: none">651001</td>
+        <td style="border: none">26</td>
+        <td style="border: none">10</td>
+    </tr>
+</table>
 
 ---
 
-<table style="font-size: 150%; text-align: center;">
-    <tr>
-        <th>ФИО</th>
-        <th>Группа</th>
-        <th>Вариант</th>
-        <th>Целевая оценка</th>
-    </tr>
-    <tr>
-        <td>Филиппов Андрей Сергеевич</td>
-        <td>651001</td>
-        <td>26</td>
-        <td>10</td>
-    </tr>
-</table>
 
 ## Этап 4. Постановка задачи
 
@@ -116,18 +117,73 @@ consumption_kwh_per_100| $ \text{km} $| energy_used_kWh / distance_km * 100.0 |
     <tr>
     <tr>
         <td>T1</td>
-        <td>120.5 95 64.0 82.0 54.5 0.42 3</td>
-        <td></td>
-        <td>1.583333 17.600000 76.105263 14.605809 7.392000 2.464000</td>
+        <td><code>120.5 95 64.0 82.0 54.5 0.42 3</code></td>
+        <td><code>17.60 76.11 14.61 7.39 2.40</code></td>
+        <td><code>17.60 76.11 14.61 7.39 2.4</code></td>
         <td style="background-color: #66ee99">PASS</td>
+    </tr>
+    <tr>
+        <td>T2</td>
+        <td><code>250.5 239 98.0 69.1 58.2 0.685 3</code></td>
+        <td><code>10.6820 3.9833 62.8870 426.</code></td>
+        <td><code>10.6820 3.9833 62.8870 4.2643 7.3172 2.4391 </code></td>
+        <td style="background-color: #66ee99">PASS</td>
+    </tr>
+    <tr>
+        <td>T3</td>
+        <td><code>120.5 55 64.0 82.0 54.5 0.42 3</code></td>
+        <td><code>0.75 17.60 160.67 14.61 7.39 2.46</code></td>
+        <td><code>0.75 17.60 160.67 14.61 7.39 2.46</code></td>
+        <td style="background-color: #66ee99">PASS</td>
+    </tr>
+    <tr>
+        <td>T5</td>
+        <td><code>120.5 55 64.0 82.0 54.5 0.42 1</code></td>
+        <td><code>10.6820 3.9833 62.8870 4.2643 7.3172 7.3172</code></td>
+        <td><code>10.6820 3.9833 62.8870 4.2643 7.3172 7.3172</code></td>
+        <td style="background-color: #66ee99">PASS</td>
+    </tr>
+    <tr>
+        <td>T6</td>
+        <td><code>12000.5 3 6400.0 82.0 0.5 0.42 123</code></td>
+        <td><code>5216.0000 0.0500 240010.0000 43.4649 2190.7200 17.8107 
+        <td><code>5216.0000 0.0500 240010.0000 43.4649 2190.7200 17.8107 
+</code></td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+    </tr>
+    <tr>
+        <td>T7</td>
+        <td><code>250.5 239 98.0 69.1 58.2 0.685 3</code></td>
+        <td><code>1068200.0000 3.9833 62.8870 426427.1457 731717.0000 731717.0000</code></td>
+        <td><code>1068199.7500 3.9833 62.8870 426427.0625 731716.8125 731717.8125</code></td>
+        <td style="background-color: #ff5544">FAIL<a href="#footnote-explanation-1"><sup>[1]</sup></a></td>
     </tr>
 </table>
 
+[^1]: This is a footnote that corresponds to some kind of content above it
+
+<ol>
+    <li><p id="footnote-explanation-1">Так как точность 32-битного float соствляет около 7 значимых десятичных знаков, при использовании его в расчётах с большими числами видна погрешность.</p></li>
+</ol>
 
 ### 7. Этап 5. Работа с AI
+
 
 | Предложение AI | Решение | Как проверено | Вывод |
 |---|---|---|---|
 
 
 ### 8. Аудит правдоподобного AI кода
+
+Для проведения данного этапа написанный код был значительно изменён - добавлены как различные уязвимости, так и нелогичные и лишние операции, не позволяющие получить желаемый результат.
+
+Полученный код был сохранён в файле `for-review.c`, созданный в соответствующей ветке `for-review`, для того, чтобы не повреждать написанную ранее программу.
+
+Исходный код, находящийся в файле `for-review.c` перед передачей его ИИ модели:j
+
+```c
+
+#include <stdio.h>
+...
+
+```
