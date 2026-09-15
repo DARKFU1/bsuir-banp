@@ -1,7 +1,7 @@
 <h1 style="text-align: center; width: 100%"> Лабораторная Работа №1 ОАиП</h1>
 
 <table style="font-size: 150%; border: none; text-align: center; width: 90%; margin: auto">
-    <tr style="text-align: left; border:none; border-bottom: 1px solid black">
+    <tr style="text-align: center; border:none; border-bottom: 1px solid black; ">
         <th style="border: none">ФИО</th>
         <th style="border: none">Группа</th>
         <th style="border: none">Вариант</th>
@@ -16,7 +16,7 @@
 </table>
 
 ---
-
+![Successful Static Find](evidence/successful-static-find.png)
 
 ## Этап 4. Постановка задачи
 
@@ -163,27 +163,101 @@ consumption_kwh_per_100| $ \text{km} $| energy_used_kWh / distance_km * 100.0 |
 [^1]: This is a footnote that corresponds to some kind of content above it
 
 <ol>
-    <li><p id="footnote-explanation-1">Так как точность 32-битного float соствляет около 7 значимых десятичных знаков, при использовании его в расчётах с большими числами видна погрешность.</p></li>
+    <li><p id="footnote-explanation-1">Так как точность 32-битного float соствляет около 7 значимых десятичных знаков (<a href="https://pub.sergev.org/doc/ieee754-2008.pdf">&#x1f517;IEEE 754 (2008) (pdf)</a>), при использовании его в расчётах с большими числами видна погрешность.</p></li>
 </ol>
 
 ### 7. Этап 5. Работа с AI
 
+Для работы с AI был использован следующий промпт:
+
+> Hi! You will be reviewing the code of a simple program I've written. It asks the user to input some values and calculates duration of a trip, energy used and energy consumption rate during the trip and its total and per-person cost. Your task is to come up with tests that will expose vulnerabilities, illogical results and other inconsistencies in the program. Your output should be in form of a table, where its first column is index of a test, second is input, third is expected output and fourth is explanation of why the test is important and what it can tell me about the program.
+>
+> <Код из файла `main.c`>
+>
+> formulas that are used when computing the results:
+>
+> time_hours = duration_minutes / 60.0
+> energy_used_kwh = battery_capacity_kwh * (start_charge_percent - finish_charge_percent) / 100.0
+> average_speed_kmh = distance_km / time_hours
+> consumption_kwh_per_100km = energy_used_kwh / distance_km * 100.0
+> trip_cost_byn = energy_used_kwh * tariff_byn_per_kwh
+> cost_per_passenger_byn = trip_cost_byn / passengers
+
+Ниже представлена таблица из предложений, которые сгенерировал искусственный интеллект и решение о реализации или нереализации их в программе:
 
 | Предложение AI | Решение | Как проверено | Вывод |
 |---|---|---|---|
+| Добавить проверку возвращаемого значения функции `scanf()` для предотвращения неправильного ввода пользователя | **Отклонено**, *так как противоречит условию лабораторной работы (без ветвлений, пользовательский ввод считать корректным)* | - | - |
+| Проверка соответствия значения пользовательского ввода по сравнению с ограничениями | **Отклонено**, *так как противоречит условию лабораторной работы (без ветвлений, пользовательский ввод считать корректным)* | - | - |
+| Изменить тип переменной `passengers` на целочисленный | **Принято**, *так как тип переменной накладывает дополнительные ограничения, что помогает понять её назначение* | тесты T1-T7 | Измененние не повлияло на корректность программы, но упростило процесс чтения кода |
 
 
 ### 8. Аудит правдоподобного AI кода
 
-Для проведения данного этапа написанный код был значительно изменён - добавлены как различные уязвимости, так и нелогичные и лишние операции, не позволяющие получить желаемый результат.
+Для проведения данного этапа написанный код был значительно изменён - добавлены как различные уязвимости, так и нелогичные и лишние операции, не позволяющие получить желаемый результат, а именно:
+- Отсутствие скобок в расчёте `energy_used_kwh`
+- Перепутанная последовательность форматов в форматной строке `scanf_s` (целочисленный для `double` и плавающая точка для `uint64_t`)
+- Ненужный спецификатор `static` для переменной `passengers`, который может привести к ошибкам при дальнейшем усложнении кода.
 
 Полученный код был сохранён в файле `for-review.c`, созданный в соответствующей ветке `for-review`, для того, чтобы не повреждать написанную ранее программу.
 
-Исходный код, находящийся в файле `for-review.c` перед передачей его ИИ модели:j
+Для работы с AI был использован следующий промпт:
+
+>Hi! I'm writing a program that will calculate statistics for a trip given some data. The inputs are distance, duration(minutes) of the trip, battery capacity, start and finish levels, energy price and passenger count. Program has to calculate duration (in hours), average speed, battery consumption rate(in kwh per 100km), total energy used during trip, total and per-passenger price. Report any mistakes and/or logical inconsistencies you find. Here's the code sample:
+>
+> <<<Код из файла `for-review.c` (представлен ниже)>>>
+>
+> Note: equations for finding needed values are the following:
+> 
+> time_hours = duration_minutes / 60.0 
+> energy_used_kwh = battery_capacity_kwh * (start_charge_percent - finish_charge_percent) / 100.0
+> average_speed_kmh = distance_km / time_hours
+> consumption_kwh_per_100_km = energy_used_kWh / distance_km * 100.0
+> trip_cost_byn = energy_used_kwh * tariff_byn_per_kwh
+> cost_per_passenger_byn = trip_cost_byn / passengers
+
+Исходный код, находящийся в файле `for-review.c` перед передачей его ИИ модели:
 
 ```c
-
 #include <stdio.h>
-...
+#include <stdint.h>
 
+int main() {
+    double distance_km;
+    double duration_minutes;
+    double battery_capacity_kwh;
+	double start_charge_percent;
+	double finish_charge_percent;
+	double tariff_byn_per_kwh;
+	static uint64_t passengers;
+
+    scanf_s("%lu %lf %lf %lf %lf %lf %lf",
+    &distance_km, &duration_minutes, &battery_capacity_kwh, 
+    &start_charge_percent, &finish_charge_percent, &tariff_byn_per_kwh,
+    &passengers);
+
+    double time_hours = duration_minutes / 60;
+    double energy_used_kwh = battery_capacity_kwh * start_charge_percent - finish_charge_percent / 100.0;
+    double average_speed_kmh = distance_km / time_hours;
+    double consumption_kwh_per_100km = energy_used_kwh / distance_km * 100;
+    double trip_cost_byn = energy_used_kwh * tariff_byn_per_kwh;
+    double cost_per_passenger_byn = trip_cost_byn / passengers;
+
+    printf("%-30s %10.4lf (%s)\n", "Energy used: ",         (double)energy_used_kwh,           "kWh");
+    printf("%-30s %10.4lf (%s)\n", "Trip time:",            (double)time_hours,                "h");
+    printf("%-30s %10.4lf (%s)\n", "Average speed:",        (double)average_speed_kmh,         "km/h");
+    printf("%-30s %10.4lf (%s)\n", "Consumption Rate: ",    (double)consumption_kwh_per_100km, "kWh/100km");
+    printf("%-30s %10.4lf (%s)\n", "Trip cost: ",           (double)trip_cost_byn,             "BYN");
+    printf("%-30s %10.4lf (%s)\n", "Per-passenger cost: ",  (double)cost_per_passenger_byn,    "BYN/person");
+    return 0;
+}
 ```
+
+Ошибки, найденные AI:
+
+| Ошибка | Факт нахождения | Предложенное решение | Оценка предложенного решения | Доказательство |
+|---|---|---|---|---|
+| Недостающие скобки | &check; | battery_capacity_kwh * (start_charge_percent - finish_charge_percent) / 100.0 | **&check;** Решение является корректным и устраняет логические ошибки в программе. | ![evidence](evidence/successful-parentheses-find.png)
+| Неправильные спецификаторы формата `scanf_s` | &check; | Добавить заголовочный файл `<inttypes.h>` для определения переносимого макроса `SCNu64` (формат 64-битного `unsigned int` | **Отклонено** так как заметно снижает читабельность кода, и имеет смысл только при компилляции при помощи стандартов C, вышедших значительно раньше C17. | ![evidence](evidence/successful-format-find.png)
+| Ненужный классификатор `static` | &check; | Убрать классификатор `static` перед объявлением переменной | **&check;** Решение является корректным, не влияет на корректность программы, улучшает читаемость кода и устраняет возможные будующие ошибки | ![evidence](evidence/successful-static-find.png)
+| *Дополнительно* валидация ввода | &check; | Добавить проверку введенных пользователем данных при помощи `if`-выражений | **Отклонено** из-за условий лабораторной работы (*отсутствие ветвлений*) | ![evidence](evidence/successful-input-validation-find.png)
