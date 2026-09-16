@@ -199,19 +199,24 @@ consumption_kwh_per_100| $ \text{km} $| energy_used_kWh / distance_km * 100.0 |
     </tr>
     <tr>
         <td>T6</td>
-        <td><code>12000.5 3 6400.0 82.0 0.5 0.42 123</code></td>
-        <td><code>5216.0000 0.0500 240010.0000 43.4649 2190.7200 17.8107 
-        <td><code>5216.0000 0.0500 240010.0000 43.4649 2190.7200 17.8107 
-</code></td>
+        <td><code>12000.5 0.003 6400.0 82.0 0.5 0.42 123</code></td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
         <td style="background-color: #ffff3c; text-align: center;">?</td>
     </tr>
     <tr>
         <td>T7</td>
-        <td><code>250.5 239 98.0 69.1 58.2 0.685 3</code></td>
-        <td><code>1068200.0000 3.9833 62.8870 426427.1457 731717.0000 731717.0000</code></td>
-        <td><code>1068200.0000 3.9833 62.8870 426427.1457 731717.0000 731717.0000</code></td>
-        <td style="background-color: #66ee99">PASS</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
     </tr>
+    <tr>
+        <td>T7</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
     </tr>
 </table>
 
