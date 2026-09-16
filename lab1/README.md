@@ -72,9 +72,9 @@ int main(void) {
 |---|---|---|---|---|
 | `duration_min` | Длительность | ч | double |
 | `distance_km `| Расстояние | км | double |
+| `bat_capacity_kWh` | Полная емкость батереи |$\text{кВт} \cdot \text{ч} $ | double |
 | `bat_level_start` | Заряд батареи в начале поездки | % | double | $ 0 \leq \text{bat\_level\_start} \leq 100$ |
 | `bat_level_finish` | Заряд батареи в конце поездки | % | double | $ 0 \leq \text{bat\_level\_finish} \leq 100$ |
-| `bat_capacity_kWh` | Полная емкость батереи |$\text{кВт} \cdot \text{ч} $ | double |
 | `energy_tarrif_byn`| Цена электричества |$\text{BYN}/{100 \text{кВт} \cdot \text{ч}}$| double
 | `passengers` | Количество пассажиров |чел.| double | $ \text{passengers} \geq 0 $ |
 
@@ -165,44 +165,44 @@ consumption_kwh_per_100| $ \text{km} $| energy_used_kWh / distance_km * 100.0 |
     <tr>
         <td>T1</td>
         <td><code>120.5 95 64.0 82.0 54.5 0.42 3</code></td>
-        <td><code>17.60 76.11 14.61 7.39 2.40</code></td>
-        <td><code>17.60 76.11 14.61 7.39 2.4</code></td>
+        <td><code>17.6000 1.5833 76.1053 14.6058 7.3920 2.4640</code></td>
+        <td><code>17.6000 1.5833 76.1053 14.6058 7.3920 2.4640</code></td>
         <td style="background-color: #66ee99">PASS</td>
     </tr>
     <tr>
         <td>T2</td>
-        <td><code>250.5 239 98.0 69.1 58.2 0.685 3</code></td>
-        <td><code>10.6820 3.9833 62.8870 426.</code></td>
-        <td><code>10.6820 3.9833 62.8870 4.2643 7.3172 2.4391 </code></td>
-        <td style="background-color: #66ee99">PASS</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
     </tr>
     <tr>
         <td>T3</td>
-        <td><code>120.5 55 64.0 82.0 54.5 0.42 3</code></td>
-        <td><code>0.75 17.60 160.67 14.61 7.39 2.46</code></td>
-        <td><code>0.75 17.60 160.67 14.61 7.39 2.46</code></td>
-        <td style="background-color: #66ee99">PASS</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
     </tr>
     <tr>
         <td>T4</td>
-        <td><code>120.5 55 64.32 82.32 54.5 0.42 1</code></td>
-        <td><code>17.8938 0.9167 131.4545 14.8496 7.5154 2.5051</code></td>
-        <td><code>17.8938 0.9167 131.4545 14.8496 7.5154 2.5051</code></td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td style="background-color: #ffff3c; text-align: center;">?</td>
         <td style="background-color: #ffff3c; text-align: center;">?</td>
     </tr>
     <tr>
         <td>T5</td>
-        <td><code>120.5 55 64.0 82.0 54.5 0.42 1</code></td>
-        <td><code>10.6820 3.9833 62.8870 4.2643 7.3172 7.3172</code></td>
-        <td><code>10.6820 3.9833 62.8870 4.2643 7.3172 7.3172</code></td>
+        <td><code>120.5 95 64.0 82.0 54.5 0.42 1</code></td>
+        <td><code>17.6000 1.5833 76.1053 14.6058 7.3920 7.3920</code></td>
+        <td><code>17.6000 1.5833 76.1053 14.6058 7.3920 7.3920</code></td>
         <td style="background-color: #66ee99">PASS</td>
     </tr>
     <tr>
         <td>T6</td>
         <td><code>12000.5 0.003 6400.0 82.0 0.5 0.42 123</code></td>
-        <td style="background-color: #ffff3c; text-align: center;">?</td>
-        <td style="background-color: #ffff3c; text-align: center;">?</td>
-        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td><code>0.0001 5216.0000 240010000.0000 43.4649 2190.7200 17.8107</td>
+        <td><code>0.0001 5216.0000 240010000.0000 43.4649 2190.7200 17.8107</td>
+        <td style="background-color: #66ee99">PASS</td>
     </tr>
     <tr>
         <td>T7</td>
