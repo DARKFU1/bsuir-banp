@@ -26,7 +26,7 @@
 | Название | Версия | Назначение |
 |---|---|---|
 | Visual Studio Code | 1.336.2 | Редактор кода |
-| Clang (llvm) | 23.1 | Компиллятор языка программирования С /
+| Clang (llvm) | 23.1 | Компиллятор языка программирования С |
 | Gnu DeBugger | 17.2 | Отладчик программ |
 
 ### Проверка установки
@@ -70,13 +70,13 @@ int main(void) {
 
 | Имя | Значение | ЕИ | Тип | Ограничение |
 |---|---|---|---|---|
-| `duration_min` | Длительность | ч | double |
-| `distance_km `| Расстояние | км | double |
-| `bat_capacity_kWh` | Полная емкость батереи |$\text{кВт} \cdot \text{ч} $ | double |
+| `duration_min` | Длительность | ч | double | $0 \leq \text{duration\_min} \leq 1 \times 10^5$ |
+| `distance_km `| Расстояние | км | double |  $0 \leq \text{distance\_km} \leq 1 \times 10^8 $ |
+| `bat_capacity_kWh` | Полная емкость батереи |$\text{кВт} \cdot \text{ч} $ | double | $0 \leq \text{distance\_km} \leq 1 \times 10^8 $
 | `bat_level_start` | Заряд батареи в начале поездки | % | double | $ 0 \leq \text{bat\_level\_start} \leq 100$ |
-| `bat_level_finish` | Заряд батареи в конце поездки | % | double | $ 0 \leq \text{bat\_level\_finish} \leq 100$ |
-| `energy_tarrif_byn`| Цена электричества |$\text{BYN}/{100 \text{кВт} \cdot \text{ч}}$| double
-| `passengers` | Количество пассажиров |чел.| double | $ \text{passengers} \geq 0 $ |
+| `bat_level_finish` | Заряд батареи в конце поездки | % | double | $ 0 \leq \text{bat\_level\_finish} \leq \text{bat\_level\_start} \leq 100$ |
+| `energy_tarrif_byn`| Цена электричества | $\text{BYN}/{100 \text{кВт} \cdot \text{ч}}$ | double | $0 \leq \text{distance\_km} \leq 1 \times 10^8 $ |
+| `passengers` | Количество пассажиров |чел.| double | $  \text{passengers} \in \mathbb{N}; \newline 0 \leq \text{passengers} \leq 1 \times 10^5;$ |
 
 ### 2.2 Выходные данные и формулы
 
@@ -171,10 +171,10 @@ consumption_kwh_per_100| $ \text{km} $| energy_used_kWh / distance_km * 100.0 |
     </tr>
     <tr>
         <td>T2</td>
-        <td style="background-color: #ffff3c; text-align: center;">?</td>
-        <td style="background-color: #ffff3c; text-align: center;">?</td>
-        <td style="background-color: #ffff3c; text-align: center;">?</td>
-        <td style="background-color: #ffff3c; text-align: center;">?</td>
+        <td><code>120.5 95 64.0 82.0 54.5 0.42 3</code></td>
+        <td><code>17.6000 0.7500 160.6667 14.6058 7.3920 2.4640</code></td>
+        <td><code>17.6000 0.7500 160.6667 14.6058 7.3920 2.4640</code></td>
+        <td style="background-color: #66ee99">PASS</td>
     </tr>
     <tr>
         <td>T3</td>
@@ -324,7 +324,7 @@ int main(void) {
 
 
 
-##### Ошибки, найденные AI:
+#### Ошибки, найденные AI:
 
 | Ошибка | Факт нахождения | Предложенное решение | Оценка предложенного решения | Доказательство |
 |---|---|---|---|---|
