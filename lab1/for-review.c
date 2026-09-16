@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-int main() {
+int main(void) {
     double distance_km;
     double duration_minutes;
     double battery_capacity_kwh;
@@ -10,7 +10,7 @@ int main() {
 	double tariff_byn_per_kwh;
 	static uint64_t passengers;
 
-    scanf_s("%lu %lf %lf %lf %lf %lf %lf",
+    scanf("%lf %lf %lf %lf %lf %lf %lf",
     &distance_km, &duration_minutes, &battery_capacity_kwh, 
     &start_charge_percent, &finish_charge_percent, &tariff_byn_per_kwh,
     &passengers);
